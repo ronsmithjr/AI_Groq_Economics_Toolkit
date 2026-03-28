@@ -1,0 +1,26 @@
+scenario_name: "Agentic Automation"
+description: "Multi-step agent with reasoning, search, and code execution."
+
+assumptions:
+  users: 1000
+  interactions_per_user_per_month: 30
+
+workflows:
+  - name: "Reasoning Step"
+    type: "llm"
+    model: "llama-3.3-70b-versatile"
+    input_tokens: 8000
+    output_tokens: 2000
+    calls_per_interaction: 2
+
+  - name: "Search Step"
+    type: "tool"
+    tool: "tool/basic-search"
+    requests: 4
+    calls_per_interaction: 1
+
+  - name: "Code Execution"
+    type: "tool"
+    tool: "tool/code-execution"
+    hours: 0.01
+    calls_per_interaction: 1

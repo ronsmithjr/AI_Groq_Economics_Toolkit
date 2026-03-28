@@ -1,0 +1,21 @@
+scenario_name: "RAG Workflow"
+description: "Search → Retrieve → Summarize."
+
+assumptions:
+  users: 2000
+  interactions_per_user_per_month: 20
+
+workflows:
+  - name: "Search Query"
+    type: "tool"
+    tool: "tool/advanced-search"
+    requests: 2
+    calls_per_interaction: 1
+
+  - name: "LLM Summarization"
+    type: "llm"
+    model: "openai/gpt-oss-120b"
+    input_tokens: 6000
+    output_tokens: 1500
+    cached_input_tokens: 0
+    calls_per_interaction: 1

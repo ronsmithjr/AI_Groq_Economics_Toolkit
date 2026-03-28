@@ -1,0 +1,36 @@
+scenario_name: "Customer Support Workflow — Tier 1"
+
+description: >
+  End‑to‑end cost model for a Tier‑1 support interaction using
+  LLM reasoning, TTS for voice response, and STT for call transcription.
+
+assumptions:
+  users: 5000
+  interactions_per_user_per_month: 12
+
+workflows:
+  - name: "LLM Reasoning"
+    model: "openai/gpt-oss-20b"
+    type: "llm"
+    input_tokens: 4500
+    output_tokens: 1200
+    cached_input_tokens: 0
+    calls_per_interaction: 1
+
+  - name: "Voice Response (TTS)"
+    model: "canopy-labs/orpheus-english"
+    type: "tts"
+    characters: 900
+    calls_per_interaction: 1
+
+  - name: "Call Transcription (STT)"
+    model: "whisper-large-v3-turbo"
+    type: "stt"
+    audio_seconds: 180
+    calls_per_interaction: 1
+
+  - name: "Search Tooling"
+    tool: "tool/basic-search"
+    type: "tool"
+    requests: 3
+    calls_per_interaction: 1
