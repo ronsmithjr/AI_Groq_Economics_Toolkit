@@ -23,7 +23,6 @@ pip install -e.
 groq-econ run-scenario scenarios/scenario_support.yaml
 ```
 
-
 ## Python Usage
 
 ```python

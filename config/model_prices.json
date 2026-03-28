@@ -1,0 +1,122 @@
+{
+    "openai/gpt-oss-20b": {
+        "type": "llm",
+        "price": {
+            "input_per_m": 0.075,
+            "output_per_m": 0.30,
+            "cached_input_per_m": null
+        }
+    },
+    "openai/gpt-oss-safeguard-20b": {
+        "type": "llm",
+        "price": {
+            "input_per_m": 0.075,
+            "output_per_m": 0.30,
+            "cached_input_per_m": null
+        }
+    },
+    "openai/gpt-oss-120b": {
+        "type": "llm",
+        "price": {
+            "input_per_m": 0.15,
+            "output_per_m": 0.60,
+            "cached_input_per_m": null
+        }
+    },
+    "moonshotai/kimi-k2-instruct-0905": {
+        "type": "llm",
+        "price": {
+            "input_per_m": 1.00,
+            "output_per_m": 3.00,
+            "cached_input_per_m": 0.50
+        }
+    },
+    "llama-4-scout-17bx16e": {
+        "type": "llm",
+        "price": {
+            "input_per_m": 0.11,
+            "output_per_m": 0.34,
+            "cached_input_per_m": null
+        }
+    },
+    "qwen3-32b": {
+        "type": "llm",
+        "price": {
+            "input_per_m": 0.29,
+            "output_per_m": 0.59,
+            "cached_input_per_m": null
+        }
+    },
+    "llama-3.3-70b-versatile": {
+        "type": "llm",
+        "price": {
+            "input_per_m": 0.59,
+            "output_per_m": 0.79,
+            "cached_input_per_m": null
+        }
+    },
+    "llama-3.1-8b-instant": {
+        "type": "llm",
+        "price": {
+            "input_per_m": 0.05,
+            "output_per_m": 0.08,
+            "cached_input_per_m": null
+        }
+    },
+    "canopy-labs/orpheus-english": {
+        "type": "tts",
+        "price": {
+            "per_m_characters": 22.00
+        }
+    },
+    "canopy-labs/orpheus-arabic-saudi": {
+        "type": "tts",
+        "price": {
+            "per_m_characters": 40.00
+        }
+    },
+    "whisper-v3-large": {
+        "type": "stt",
+        "price": {
+            "per_hour": 0.111,
+            "min_billable_seconds": 10.0
+        }
+    },
+    "whisper-large-v3-turbo": {
+        "type": "stt",
+        "price": {
+            "per_hour": 0.04,
+            "min_billable_seconds": 10.0
+        }
+    },
+    "tool/basic-search": {
+        "type": "tool",
+        "price": {
+            "per_1k_requests": 5.00
+        }
+    },
+    "tool/advanced-search": {
+        "type": "tool",
+        "price": {
+            "per_1k_requests": 8.00
+        }
+    },
+    "tool/visit-website": {
+        "type": "tool",
+        "price": {
+            "per_1k_requests": 1.00
+        }
+    },
+    "tool/code-execution": {
+        "type": "tool",
+        "price": {
+            "per_hour": 0.18
+        }
+    },
+    "tool/browser-automation": {
+        "type": "tool",
+        "price": {
+            "per_hour": 0.08
+        }
+    }
+}

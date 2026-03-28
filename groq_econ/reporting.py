@@ -11,7 +11,9 @@ def print_scenario_header(scenario: Dict) -> None:
     users = scenario["assumptions"]["users"]
     interactions = scenario["assumptions"]["interactions_per_user_per_month"]
 
-    print(f"\n=== Scenario: {scenario['scenario_name']} ===")
+    scenario_name = scenario['scenario_name'].replace("â€”", "")
+    print(f"\n=== Scenario: {scenario_name} ===")
+    # print(f"\n=== Scenario: {scenario['scenario_name']} ===")
     desc = scenario.get("description")
     if desc:
         print(desc)

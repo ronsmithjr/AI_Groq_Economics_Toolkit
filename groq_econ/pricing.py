@@ -5,6 +5,9 @@ Single source of truth for Groq model pricing.
 All prices are in USD.
 """
 
+
+import json
+import os
 from dataclasses import dataclass
 from typing import Optional, Dict, Literal
 
@@ -42,129 +45,39 @@ class ModelConfig:
     price: object
 
 
-PRICING: Dict[str, ModelConfig] = {
-    # LLMs (from Groq pricing page)
-    "openai/gpt-oss-20b": ModelConfig(
-        type="llm",
-        price=LLMPrice(
-            input_per_m=0.075,
-            output_per_m=0.30,
-            cached_input_per_m=None,
-        ),
-    ),
-    "openai/gpt-oss-safeguard-20b": ModelConfig(
-        type="llm",
-        price=LLMPrice(
-            input_per_m=0.075,
-            output_per_m=0.30,
-            cached_input_per_m=None,
-        ),
-    ),
-    "openai/gpt-oss-120b": ModelConfig(
-        type="llm",
-        price=LLMPrice(
-            input_per_m=0.15,
-            output_per_m=0.60,
-            cached_input_per_m=None,
-        ),
-    ),
-    "moonshotai/kimi-k2-instruct-0905": ModelConfig(
-        type="llm",
-        price=LLMPrice(
-            input_per_m=1.00,
-            output_per_m=3.00,
-            cached_input_per_m=0.50,
-        ),
-    ),
-    "llama-4-scout-17bx16e": ModelConfig(
-        type="llm",
-        price=LLMPrice(
-            input_per_m=0.11,
-            output_per_m=0.34,
-            cached_input_per_m=None,
-        ),
-    ),
-    "qwen3-32b": ModelConfig(
-        type="llm",
-        price=LLMPrice(
-            input_per_m=0.29,
-            output_per_m=0.59,
-            cached_input_per_m=None,
-        ),
-    ),
-    "llama-3.3-70b-versatile": ModelConfig(
-        type="llm",
-        price=LLMPrice(
-            input_per_m=0.59,
-            output_per_m=0.79,
-            cached_input_per_m=None,
-        ),
-    ),
-    "llama-3.1-8b-instant": ModelConfig(
-        type="llm",
-        price=LLMPrice(
-            input_per_m=0.05,
-            output_per_m=0.08,
-            cached_input_per_m=None,
-        ),
-    ),
-    # TTS (character-based)
-    "canopy-labs/orpheus-english": ModelConfig(
-        type="tts",
-        price=TTSPrice(
-            per_m_characters=22.00,
-        ),
-    ),
-    "canopy-labs/orpheus-arabic-saudi": ModelConfig(
-        type="tts",
-        price=TTSPrice(
-            per_m_characters=40.00,
-        ),
-    ),
-    # STT (audio-hour-based)
-    "whisper-v3-large": ModelConfig(
-        type="stt",
-        price=STTPrice(
-            per_hour=0.111,
-            min_billable_seconds=10.0,
-        ),
-    ),
-    "whisper-large-v3-turbo": ModelConfig(
-        type="stt",
-        price=STTPrice(
-            per_hour=0.04,
-            min_billable_seconds=10.0,
-        ),
-    ),
-    # Tools (example values)
-    "tool/basic-search": ModelConfig(
-        type="tool",
-        price=ToolPrice(
-            per_1k_requests=5.00,
-        ),
-    ),
-    "tool/advanced-search": ModelConfig(
-        type="tool",
-        price=ToolPrice(
-            per_1k_requests=8.00,
-        ),
-    ),
-    "tool/visit-website": ModelConfig(
-        type="tool",
-        price=ToolPrice(
-            per_1k_requests=1.00,
-        ),
-    ),
-    "tool/code-execution": ModelConfig(
-        type="tool",
-        price=ToolPrice(
-            per_hour=0.18,
-        ),
-    ),
-    "tool/browser-automation": ModelConfig(
-        type="tool",
-        price=ToolPrice(
-            per_hour=0.08,
-        ),
-    ),
-}
+
+# Load pricing from config/model_prices.json
+def _load_pricing():
+    config_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "config", "model_prices.json")
+    with open(config_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    pricing = {}
+    for model, cfg in data.items():
+        mtype = cfg["type"]
+        price = cfg["price"]
+        if mtype == "llm":
+            price_obj = LLMPrice(
+                input_per_m=price["input_per_m"],
+                output_per_m=price["output_per_m"],
+                cached_input_per_m=price.get("cached_input_per_m"),
+            )
+        elif mtype == "tts":
+            price_obj = TTSPrice(
+                per_m_characters=price["per_m_characters"]
+            )
+        elif mtype == "stt":
+            price_obj = STTPrice(
+                per_hour=price["per_hour"],
+                min_billable_seconds=price.get("min_billable_seconds", 10.0)
+            )
+        elif mtype == "tool":
+            price_obj = ToolPrice(
+                per_1k_requests=price.get("per_1k_requests"),
+                per_hour=price.get("per_hour")
+            )
+        else:
+            raise ValueError(f"Unknown model type: {mtype}")
+        pricing[model] = ModelConfig(type=mtype, price=price_obj)
+    return pricing
+
+PRICING: Dict[str, ModelConfig] = _load_pricing()
