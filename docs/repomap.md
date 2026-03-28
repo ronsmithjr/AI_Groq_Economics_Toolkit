@@ -1,3 +1,6 @@
+# Repo Map
+
+```text
 AI_Groq_Economics_Toolkit/
 ├─ README.md
 ├─ pyproject.toml              # or setup.cfg / requirements.txt
@@ -32,3 +35,4 @@ AI_Groq_Economics_Toolkit/
    ├─ test_estimator.py
    ├─ test_scenarios.py
    └─ test_cli.py
+```
