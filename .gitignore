@@ -205,3 +205,5 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+config/debugger_script.json
+config/debugger_script.jsonc
