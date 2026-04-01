@@ -1,5 +1,8 @@
 # Groq Economics Toolkit
 
+
+### Disclaimer:  90% of this code was generated using AI
+
 A modular, scenario‑driven cost modeling toolkit for Groq workloads.
 
 ## Features
